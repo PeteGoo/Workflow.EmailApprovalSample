@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="7b3967ad-811e-4b7d-af40-dda012377820" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:1708/Workflow.xamlx" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Workflow.xsd" MetadataType="Schema" ID="68455a73-4b07-48c3-ba40-78f2debb7203" SourceId="1" SourceUrl="http://localhost:1708/Workflow.xamlx?xsd=xsd0" />
+    <MetadataFile FileName="Workflow1.xsd" MetadataType="Schema" ID="68ff2cd7-4ff2-4467-b42b-d56cb07dea3d" SourceId="1" SourceUrl="http://localhost:1708/Workflow.xamlx?xsd=xsd2" />
+    <MetadataFile FileName="Workflow.wsdl" MetadataType="Wsdl" ID="8657be5d-b57b-46da-bace-5b87821220e0" SourceId="1" SourceUrl="http://localhost:1708/Workflow.xamlx?wsdl" />
+    <MetadataFile FileName="Workflow2.xsd" MetadataType="Schema" ID="ec10c12a-d9cc-4067-ac6a-fa34c7574741" SourceId="1" SourceUrl="http://localhost:1708/Workflow.xamlx?xsd=xsd1" />
+    <MetadataFile FileName="Workflow.disco" MetadataType="Disco" ID="5cceeb08-67c6-43d3-9038-fbe71e6756f6" SourceId="1" SourceUrl="http://localhost:1708/Workflow.xamlx?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

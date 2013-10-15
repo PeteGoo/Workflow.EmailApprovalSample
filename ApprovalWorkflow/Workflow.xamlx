@@ -1,0 +1,156 @@
+﻿<WorkflowService mc:Ignorable="sap sads" ConfigurationName="Workflow" sap:VirtualizedContainerService.HintSize="872,1617" Name="Workflow" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/servicemodel"
+ xmlns:a="clr-namespace:ApprovalWorkflow;assembly=ApprovalWorkflow"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mv="clr-namespace:Microsoft.VisualBasic;assembly=System"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:p="http://tempuri.org/"
+ xmlns:p1="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:s1="clr-namespace:System;assembly=System"
+ xmlns:s2="clr-namespace:System;assembly=System.Xml"
+ xmlns:s3="clr-namespace:System;assembly=System.Core"
+ xmlns:s4="clr-namespace:System;assembly=System.ServiceModel"
+ xmlns:sa="clr-namespace:System.Activities;assembly=System.Activities"
+ xmlns:sad="clr-namespace:System.Activities.Debugger;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System"
+ xmlns:scg1="clr-namespace:System.Collections.Generic;assembly=System.ServiceModel"
+ xmlns:scg2="clr-namespace:System.Collections.Generic;assembly=System.Core"
+ xmlns:scg3="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data"
+ xmlns:sl="clr-namespace:System.Linq;assembly=System.Core"
+ xmlns:ssa="clr-namespace:System.ServiceModel.Activities;assembly=System.ServiceModel.Activities"
+ xmlns:ssx="clr-namespace:System.ServiceModel.XamlIntegration;assembly=System.ServiceModel"
+ xmlns:st="clr-namespace:System.Text;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <p1:Sequence DisplayName="Approver Workflow" sad:XamlDebuggerXmlReader.FileName="C:\Code\Scratch\PeteGooApprovalSample\ApprovalWorkflow\Workflow.xamlx" sap:VirtualizedContainerService.HintSize="842,1547" mva:VisualBasic.Settings="Assembly references and imported namespaces serialized as XML namespaces">
+    <p1:Sequence.Variables>
+      <p1:Variable x:TypeArguments="CorrelationHandle" Name="handle" />
+      <p1:Variable x:TypeArguments="x:Int32" Name="data" />
+      <p1:Variable x:TypeArguments="s:String[]" Name="approverEmails" />
+      <p1:Variable x:TypeArguments="s:Guid" Default="[Guid.NewGuid()]" Name="approvalProcessId" />
+      <p1:Variable x:TypeArguments="x:String" Name="messageToApprove" />
+      <p1:Variable x:TypeArguments="x:String" Name="yourEmail" />
+      <p1:Variable x:TypeArguments="x:Int32" Default="0" Name="approvalCount" />
+    </p1:Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg3:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg3:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Receive x:Name="__ReferenceID0" CanCreateInstance="True" DisplayName="Receive Start Message" sap:VirtualizedContainerService.HintSize="820,86" OperationName="BeginApprovalProcess" ServiceContractName="p:IService">
+      <Receive.CorrelationInitializers>
+        <RequestReplyCorrelationInitializer CorrelationHandle="[handle]" />
+      </Receive.CorrelationInitializers>
+      <ReceiveParametersContent>
+        <p1:OutArgument x:TypeArguments="s:String[]" x:Key="approverEmails">[approverEmails]</p1:OutArgument>
+        <p1:OutArgument x:TypeArguments="x:String" x:Key="messageToApprove">[messageToApprove]</p1:OutArgument>
+        <p1:OutArgument x:TypeArguments="x:String" x:Key="yourEmail">[yourEmail]</p1:OutArgument>
+      </ReceiveParametersContent>
+    </Receive>
+    <SendReply Request="{x:Reference __ReferenceID0}" DisplayName="Send Start Response" sap:VirtualizedContainerService.HintSize="820,86">
+      <SendParametersContent />
+    </SendReply>
+    <p1:ParallelForEach x:TypeArguments="x:String" DisplayName="ParallelForEach&lt;String&gt;" sap:VirtualizedContainerService.HintSize="820,1109" Values="[approverEmails]">
+      <p1:ActivityAction x:TypeArguments="x:String">
+        <p1:ActivityAction.Argument>
+          <p1:DelegateInArgument x:TypeArguments="x:String" Name="approverEmail" />
+        </p1:ActivityAction.Argument>
+        <p1:Sequence DisplayName="Send Approval and Wait For Response" sap:VirtualizedContainerService.HintSize="790,961">
+          <p1:Sequence.Variables>
+            <p1:Variable x:TypeArguments="s:Guid" Default="[Guid.NewGuid()]" Name="approverId" />
+            <p1:Variable x:TypeArguments="CorrelationHandle" Name="ApprovalCorrelationHandle" />
+          </p1:Sequence.Variables>
+          <sap:WorkflowViewStateService.ViewState>
+            <scg3:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg3:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <a:SendEmail Body="[&quot;&lt;html&gt;&quot; &amp; _&#xA;&quot;  &lt;body&gt;&quot; &amp; _&#xA;&quot;    &lt;p&gt;Please approve or decline the following statement:&lt;/p&gt;&quot; &amp; _&#xA;&quot;    &lt;h2&gt;&quot; &amp; messageToApprove &amp; &quot;&lt;/h2&gt;&quot; &amp; _&#xA;&quot;    &lt;a href=&quot;&quot;http://localhost:51959/Approval/Approve/&quot; &amp; approverId.ToString() &amp; &quot;&quot;&quot;&gt;Approve&lt;/a&gt;&lt;br/&gt;&quot; &amp; _&#xA;&quot;    &lt;a href=&quot;&quot;http://localhost:51959/Approval/Decline/&quot; &amp; approverId.ToString() &amp; &quot;&quot;&quot;&gt;Decline&lt;/a&gt;&lt;br/&gt;&quot; &amp; _&#xA;&quot;  &lt;/body&gt;&quot; &amp; _&#xA;&quot;&lt;/html&gt;&quot;]" DisplayName="Send Approval Email" FromAddress="blog@foo.com" sap:VirtualizedContainerService.HintSize="768,22" Subject="Please approve or decline the following message" ToAddress="[approverEmail]" />
+          <InitializeCorrelation Correlation="[ApprovalCorrelationHandle]" sap:VirtualizedContainerService.HintSize="768,95">
+            <p1:InArgument x:TypeArguments="x:String" x:Key="approverId">[approverId.ToString()]</p1:InArgument>
+          </InitializeCorrelation>
+          <p1:Pick sap:VirtualizedContainerService.HintSize="768,640">
+            <p1:PickBranch DisplayName="Approve Branch" sap:VirtualizedContainerService.HintSize="307,594">
+              <p1:PickBranch.Trigger>
+                <p1:Sequence DisplayName="Approve Message" sap:VirtualizedContainerService.HintSize="277,336">
+                  <p1:Sequence.Variables>
+                    <p1:Variable x:TypeArguments="CorrelationHandle" Name="__handle1" />
+                  </p1:Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg3:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg3:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Receive x:Name="__ReferenceID1" CorrelatesWith="[ApprovalCorrelationHandle]" sap:VirtualizedContainerService.HintSize="255,86" OperationName="Approve" ServiceContractName="p:IService">
+                    <Receive.CorrelatesOn>
+                      <XPathMessageQuery x:Key="approverId">
+                        <XPathMessageQuery.Namespaces>
+                          <ssx:XPathMessageContextMarkup>
+                            <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                          </ssx:XPathMessageContextMarkup>
+                        </XPathMessageQuery.Namespaces>sm:body()/xgSc:Approve/xgSc:approverId</XPathMessageQuery>
+                    </Receive.CorrelatesOn>
+                    <Receive.CorrelationInitializers>
+                      <RequestReplyCorrelationInitializer CorrelationHandle="[__handle1]" />
+                    </Receive.CorrelationInitializers>
+                    <ReceiveParametersContent>
+                      <p1:OutArgument x:TypeArguments="x:String" x:Key="approverId" />
+                    </ReceiveParametersContent>
+                  </Receive>
+                  <SendReply Request="{x:Reference __ReferenceID1}" DisplayName="SendReplyToReceive" sap:VirtualizedContainerService.HintSize="255,86">
+                    <SendParametersContent />
+                  </SendReply>
+                </p1:Sequence>
+              </p1:PickBranch.Trigger>
+              <p1:Assign sap:VirtualizedContainerService.HintSize="242,60">
+                <p1:Assign.To>
+                  <p1:OutArgument x:TypeArguments="x:Int32">[approvalCount]</p1:OutArgument>
+                </p1:Assign.To>
+                <p1:Assign.Value>
+                  <p1:InArgument x:TypeArguments="x:Int32">[approvalCount + 1]</p1:InArgument>
+                </p1:Assign.Value>
+              </p1:Assign>
+            </p1:PickBranch>
+            <p1:PickBranch DisplayName="Decline Branch" sap:VirtualizedContainerService.HintSize="307,594">
+              <p1:PickBranch.Trigger>
+                <p1:Sequence DisplayName="Decline Message" sap:VirtualizedContainerService.HintSize="277,336">
+                  <p1:Sequence.Variables>
+                    <p1:Variable x:TypeArguments="CorrelationHandle" Name="__handle1" />
+                  </p1:Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg3:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg3:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Receive x:Name="__ReferenceID2" CorrelatesWith="[ApprovalCorrelationHandle]" sap:VirtualizedContainerService.HintSize="255,86" OperationName="Decline" ServiceContractName="p:IService">
+                    <Receive.CorrelatesOn>
+                      <XPathMessageQuery x:Key="approverId">
+                        <XPathMessageQuery.Namespaces>
+                          <ssx:XPathMessageContextMarkup>
+                            <x:String x:Key="xgSc">http://tempuri.org/</x:String>
+                          </ssx:XPathMessageContextMarkup>
+                        </XPathMessageQuery.Namespaces>sm:body()/xgSc:Decline/xgSc:approverId</XPathMessageQuery>
+                    </Receive.CorrelatesOn>
+                    <Receive.CorrelationInitializers>
+                      <RequestReplyCorrelationInitializer CorrelationHandle="[__handle1]" />
+                    </Receive.CorrelationInitializers>
+                    <ReceiveParametersContent>
+                      <p1:OutArgument x:TypeArguments="x:String" x:Key="approverId" />
+                    </ReceiveParametersContent>
+                  </Receive>
+                  <SendReply Request="{x:Reference __ReferenceID2}" DisplayName="SendReplyToReceive" sap:VirtualizedContainerService.HintSize="255,86">
+                    <SendParametersContent />
+                  </SendReply>
+                </p1:Sequence>
+              </p1:PickBranch.Trigger>
+            </p1:PickBranch>
+          </p1:Pick>
+        </p1:Sequence>
+      </p1:ActivityAction>
+    </p1:ParallelForEach>
+    <a:SendEmail Body="[&quot;The approval process completed with &quot; &amp; approvalCount &amp; &quot; out of &quot; &amp; approverEmails.Length &amp; &quot; approved.&quot;]" DisplayName="Send Result Email" FromAddress="blog@foo.com" sap:VirtualizedContainerService.HintSize="820,22" Subject="Approval Process Complete" ToAddress="[yourEmail]" />
+  </p1:Sequence>
+</WorkflowService>
