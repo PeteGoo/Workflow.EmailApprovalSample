@@ -4,6 +4,7 @@ This is the code from my blog post describing a [workflow based email approval a
 
 ## Pre-requisites
 1. Use a local SMTP / email server like [Papercut](http://papercut.codeplex.com/) so that you can send emails from the workflow and see them appear.
+2. You will need to set all 3 projects to startup. Right-click the solution in VS, choose Set startup projects and make sure all 3 are set to start.
 
 ## Running the sample
 1. Run the code.
